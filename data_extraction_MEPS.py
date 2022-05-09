@@ -55,7 +55,7 @@ combined_ascii_links = prescribed_medicine_ascii + med_conditions_ascii + househ
 
 ####### CATEGORIZE LINKS
 
-prescribed_medicine_filenames = ["h213a.dat", "h206A.dat", "h197a.dat", "h188a.dat", "h178a.dat", "h170.dat"]
+prescribed_medicine_filenames = ["h213a.dat", "H206A.dat", "h197a.dat", "h188a.dat", "h178a.dat", "h170.dat"]
 med_conditions_filenames = ["h214.dat", "h207.dat", "h199.dat", "h190.dat", "h180.dat", "h170.dat"]
 household_filenames = ["h216.dat", "h209.dat","h201.dat", "h192.dat", "h181.dat", "h171.dat"]
 total_file_names = prescribed_medicine_filenames + med_conditions_filenames + household_filenames
