@@ -81,7 +81,10 @@ def go(final_file_categories, final_file_years, download_links, final_file_names
     Returns: None (new directory with files made)
     '''
     home_path = os.getcwd()
-    slash = re.findall("(?<=C:).*?(?=\w)", home_path)[0]
+    try:
+        slash = re.findall("(?<=C:).*?(?=\w)", home_path)[0]
+    except:
+        slash = '/'
 
     try:
         data_folder = home_path + slash + "MEPS_data"
