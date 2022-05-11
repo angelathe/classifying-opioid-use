@@ -1,5 +1,6 @@
 ﻿Key,Value
 DUPERSID,DUPERSID
+RXDRGNAM,Drug name
 RXDAYSUP,Number of days prescribed
 DRUGIDX,drug id (dupersid + counter)
 LINKIDX,ID FOR LINKAGE TO COND/OTH EVENT FILES

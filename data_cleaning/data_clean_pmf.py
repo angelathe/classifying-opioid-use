@@ -16,7 +16,7 @@ def read_and_combine(data_to_read, years_to_read):
     Returns (pd.df): Combined dataframe
     '''
     # Import col data for filtering
-    # NOTE TO TEAM: TOOK OUT DOSAGE STRENGTH COLS AS HARD TO COMPARE; ALSO REMOVED DRUG NAME (RXDRGNAM) as matching on NDC 
+    # NOTE TO TEAM: TOOK OUT DOSAGE STRENGTH COLS AS HARD TO COMPARE
     pmf_cols = pd.read_csv('pmf_columns.csv')
     # only delta below is renaming description from year of first dose to years since first began taking medicine
     pmf_cols_clean = pd.read_csv('pmf_columns_clean.csv') 
@@ -37,6 +37,10 @@ def read_and_combine(data_to_read, years_to_read):
     opioid_ndc.insert(1, column='NDC_clean', value=opioid_ndc['NDC'].str.replace('-', ""))
     opiod_ndc_prescribed = opioid_ndc[opioid_ndc['Product Type'] == 'Human Prescription Drug']
     opioid_codes = set(opiod_ndc_prescribed['NDC_clean'])
+
+    # Above didn't work so went through NDC file and found common words associated with the drugs
+    # Will use these words to signal if it's a drug or not
+    trigger_words = set(['acetaminophen', 'codeine', 'fentanyl', 'oxycodone', 'morphine', 'hydrocodone', 'oxycontin', 'tapentadol'])
 
     df_final = pd.DataFrame()
 
@@ -62,7 +66,11 @@ def read_and_combine(data_to_read, years_to_read):
         df_intermediate2['RXBEGYRX'] = df_intermediate['RXBEGYRX'].apply(lambda x: max(year_value-int(x), 0) if x > 0 else x)
 
         ##### ONLY GETTING LIKE 30 OPIOD_PRES...
-        df_intermediate2 = df_intermediate2.assign(OPIOID_PRESCRIBED = df_new['RXNDC'].apply(lambda x: 1 if str(x)[0:9] in opioid_codes or str(x)[0:10] in opioid_codes else 0))
+        #df_intermediate2 = df_intermediate2.assign(OPIOID_PRESCRIBED = df_new['RXNDC'].apply(lambda x: 1 if str(x)[0:9] in opioid_codes or str(x)[0:10] in opioid_codes else 0))
+        df_intermediate2 = df_intermediate2.assign(OPIOID_PRESCRIBED = df_intermediate['RXDRGNAM'].str.lower().str.contains('|'.join(trigger_words)))
+        
+        # Do 1 / 0 instead of T/F
+        df_intermediate2['OPIOID_PRESCRIBED'] = df_intermediate2.OPIOID_PRESCRIBED.replace({True: 1, False: 0})
 
         df_final = pd.concat([df_final, df_intermediate2])
     
