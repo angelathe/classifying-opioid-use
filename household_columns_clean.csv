@@ -1,0 +1,41 @@
+﻿Key,Value
+DUPERSID,DUPERSID
+REGION19,Census Region as of 12/31/19
+AGE19X,Age as of 12/31/19 (Edited/Imputed)
+AGELAST,Person’s Age Last Time Eligible
+DOBMM,Date of Birth: Month
+DOBYY,Date of Birth: Year
+SEX,Sex
+RACETHX,Race/Ethnicity (Edited/Imputed)
+MARRY19X,Marital Status–12/31/19 (Edited/Imputed)
+EDUCYR,Years of Educ When First Entered MEPS
+HIDEG,Highest Degree When First Entered MEPS
+ACTDTY,Military Full-Time Active Duty
+HWELLSPK,How Well Person Speaks English
+BORNUSA,Person Born in the US
+YRSINUS,Years Person Lived in the US
+FOODST19,Did Anyone Receive Food Stamps
+FOODMN19,Number Of Months Food Stamps Received
+TTLP19X,Person’s Total Income
+FAMINC19,Family’s Total Income
+POVCAT19,Family Income As Percent Of Poverty Line - Categorical
+POVLEV19,Family Income As Percent Of Poverty Line - Continuous
+WAGEP19X,Person’s Wage Income
+UNEIMP19,Unemployment Imputation Flag
+DIVDP19X,Person’s Dividend Income
+SALEP19X,Person’s Sales Income
+PENSP19X,Person’s Pension Income
+PUBP19X,Person’s Public Assistance
+RTHLTH,Perceived Health Status
+MNHLTH,Perceived Mental Health Status
+ADHDADDX,ADHD/ADD Diagnosis (5-17)
+ADHDAGED,Age of Diagnosis-ADHD/ADD
+OFREMP,Employer Offers Health Ins
+EMPST,EMPLOYMENT STATUS
+TRIMA19X,Covered by TRICARE/CHAMPVA in March 
+MCRMA19,Covered by Medicare in March
+MCDMA19,Cov by Medicaid or SCHIP in March
+GVAMA19,Cov by Other Public Coverage in March
+GVBMA19,Cov by Other Public HMO in March
+YEAR,Year
+ID,unique ID
