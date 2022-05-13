@@ -30,10 +30,7 @@ def read_and_combine(data_to_read, years_to_read):
         df = pd.read_csv(file)
         # get desired columns
         year_value = years_to_read[i]
-        print(data_to_read, year_value)
-        for key in col_dict:
-            if key not in df.columns:
-                print(year_value, key)
+        print(year_value)
 
 
         df_new = df[col_dict.keys()]
@@ -48,9 +45,15 @@ def read_and_combine(data_to_read, years_to_read):
             df_new = df_new.drop(sublist, axis = 1)
 
         # replace negatives with NaN
-        for col in df_new.columns:
+        for col in df_new.columns[3:]:
             if df_new[col].dtype in ['int64','float64']:
                 df_new.loc[df_new[col] < 0, col] = np.nan
+            else:
+                try:
+                    df_new[col] = df_new.loc[:, (col)].apply(lambda x: int(str(x).split(" ")[0]) if int(str(x).split(" ")[0]) > 0 else np.nan)
+                except:
+                    print("WHY U NOT WORK", col, df_new[col].dtypes)
+
         df_final = pd.concat([df_final, df_new])
     
     return df_final
