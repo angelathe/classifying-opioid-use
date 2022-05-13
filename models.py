@@ -29,20 +29,18 @@ for col in data.columns:
     print(col,data[col].isnull().values.any())
 
 #ADHD convert 2 to 0
-print(data.head())
 data = data.drop(to_drop, axis = 1)
 data["ADHDADDX"].apply(lambda x: x if x == 1 else 0)
 data['ADHDADDX'] = data['ADHDADDX'].fillna(0)
 data["EMPST"].apply(lambda x: 0 if x == 34 else 1)
-
-print(data.head())
-print(data.count())
-#DROPPED to_drop list, recoded ADHDADDX
+#DROPPED to_drop list, recoded ADHDADDX and EMPST
 
 print(data.isna().sum())
 data = data.dropna()
-print(data.count())
-
+print(data.count()) 
+print(data["AGE_YEARX"].describe())
+print(data["AGELAST"].describe())
+data = data.drop("AGE_YEARX", axis = 1)
 ### Run identification ###
 y = pd.DataFrame(data, columns=['opioid_prescribed_at_all'])
 exog = pd.DataFrame(data, columns=vars)
