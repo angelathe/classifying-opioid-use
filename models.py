@@ -15,7 +15,7 @@ from identification import vif_detection, corr_matrix_map
 data = pd.read_csv("final_data.csv")
 
 ### Correlation Matrix (it looks like shit) ###
-# vars to drop: ["Unnamed: 0","Unnamed: 0_x","Unnamed: 0.1","ID","YEAR_x","DUPERSID_x","YEAR_y","DUPERSID_y"]
+to_drop = ["Unnamed: 0","Unnamed: 0_x","Unnamed: 0.1","ID","YEAR_x","DUPERSID_x","YEAR","DUPERSID", "ADHDAGED", "YRSINUS","FOODMN_YEAR", "OFREMP"]
 # Let's check for missing values/NAs, something is awry
 # Make "YEAR" a float
 vars = ["REGION_YEAR","AGE_YEARX","AGELAST","DOBMM","DOBYY","SEX","RACETHX","MARRY_YEARX","EDUCYR",
@@ -28,13 +28,26 @@ corr_matrix_map(data,vars)
 for col in data.columns:
     print(col,data[col].isnull().values.any())
 
-data.isna().sum()
+#ADHD convert 2 to 0
+print(data.head())
+data = data.drop(to_drop, axis = 1)
+data["ADHDADDX"].apply(lambda x: x if x == 1 else 0)
+data['ADHDADDX'] = data['ADHDADDX'].fillna(0)
+data["EMPST"].apply(lambda x: 0 if x == 34 else 1)
+
+print(data.head())
+print(data.count())
+#DROPPED to_drop list, recoded ADHDADDX
+
+print(data.isna().sum())
+data = data.dropna()
+print(data.count())
 
 ### Run identification ###
 y = pd.DataFrame(data, columns=['opioid_prescribed_at_all'])
 exog = pd.DataFrame(data, columns=vars)
 exog_vars = vif_detection(data,y,exog)
-
+exog_vars
 
 ### Model 1-Logistic Regression
 #X=pd.DataFrame(exog).to_numpy()
