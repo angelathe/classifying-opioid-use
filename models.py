@@ -17,6 +17,7 @@ from patsy import dmatrices
 from sklearn.linear_model import LogisticRegression
 from sklearn import tree
 from identification import vif_detection, corr_matrix_map
+from matplotlib import pyplot as plt
 
 ### Load in Data ###
 data = pd.read_csv("final_data.csv")
@@ -86,5 +87,9 @@ print("model score on testing: %.3f" % log_reg.score(X_test, y_test))
 decision_tree = tree.DecisionTreeClassifier()
 decision_tree = decision_tree.fit(X_train, y_train)
 score = decision_tree.score(X_test, y_test)
+fig = plt.figure(figsize=(25,20))
+_ = tree.plot_tree(decision_tree, 
+                   filled=True)
+fig.savefig("decision_tree.png")                
 print("tree accuracy on testing: %.3f" % score)
 
