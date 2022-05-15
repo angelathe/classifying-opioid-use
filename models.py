@@ -21,7 +21,6 @@ from identification import vif_detection, corr_matrix_map
 ### Load in Data ###
 data = pd.read_csv("final_data.csv")
 
-### Correlation Matrix (it looks like shit) ###
 to_drop = ["Unnamed: 0","Unnamed: 0_y","Unnamed: 0_x","Unnamed: 0.1","ID","YEAR_x","DUPERSID_x","DUPERSID",
             "YEAR", "ADHDAGED","YRSINUS","FOODMN_YEAR","OFREMP","AGE_YEARX","DOBMM","DOBYY", "opioid_prescriptions"]
 
@@ -30,6 +29,7 @@ vars = ["REGION_YEAR","AGELAST","SEX","RACETHX","MARRY_YEARX","EDUCYR",
 "DIVDP_YEARX","SALEP_YEARX","PENSP_YEARX","PUBP_YEARX","ADHDADDX","TRIMA_YEARX","MCRMA_YEAR","MCDMA_YEAR","ACTDTY",
 "RTHLTH","MNHLTH","EMPST","non_opioid_prescriptions","NUM_CONDITIONS","INJURY"]
 
+### Correlation Matrix (it looks like shit) ###
 #corr_matrix_map(data,vars)
 
 for col in data.columns:
