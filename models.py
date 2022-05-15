@@ -22,16 +22,15 @@ from matplotlib import pyplot as plt
 ### Load in Data ###
 data = pd.read_csv("final_data.csv")
 
-### Correlation Matrix (it looks like shit) ###
-to_drop = ["Unnamed: 0","Unnamed: 0_x","Unnamed: 0.1","ID","YEAR_x","DUPERSID_x","DUPERSID",
+to_drop = ["Unnamed: 0","Unnamed: 0_y","Unnamed: 0_x","Unnamed: 0.1","ID","YEAR_x","DUPERSID_x","DUPERSID",
             "YEAR", "ADHDAGED","YRSINUS","FOODMN_YEAR","OFREMP","AGE_YEARX","DOBMM","DOBYY", "opioid_prescriptions"]
-# Let's check for missing values/NAs, something is awry
-# Make "YEAR" a float
+
 vars = ["REGION_YEAR","AGELAST","SEX","RACETHX","MARRY_YEARX","EDUCYR",
 "BORNUSA","FOODST_YEAR","TTLP_YEARX","FAMINC_YEAR","POVCAT_YEAR","POVLEV_YEAR","WAGEP_YEARX","UNEIMP_YEAR",
 "DIVDP_YEARX","SALEP_YEARX","PENSP_YEARX","PUBP_YEARX","ADHDADDX","TRIMA_YEARX","MCRMA_YEAR","MCDMA_YEAR","ACTDTY",
 "RTHLTH","MNHLTH","EMPST","non_opioid_prescriptions","NUM_CONDITIONS","INJURY"]
 
+### Correlation Matrix (it looks like shit) ###
 #corr_matrix_map(data,vars)
 
 for col in data.columns:
@@ -42,6 +41,7 @@ data = data.drop(to_drop, axis = 1)
 data["ADHDADDX"].apply(lambda x: x if x == 1 else 0)
 data['ADHDADDX'] = data['ADHDADDX'].fillna(0)
 data["EMPST"].apply(lambda x: 0 if x == 34 else 1)
+data = data.rename({"YEAR_y": "YEAR", "DUPERSID_y": "DUPERSID"}, axis=1)
 #DROPPED to_drop list, recoded ADHDADDX and EMPST
 
 print(data.isna().sum())
