@@ -1,7 +1,7 @@
 """
 File running models.
 
-Classifying ***
+Classifying Opioid Prescription
 May 2022
 """
 ###Load in relevant packages
@@ -17,16 +17,15 @@ from patsy import dmatrices
 from sklearn.linear_model import LogisticRegression
 from sklearn import tree
 from identification import vif_detection, corr_matrix_map
-from matplotlib import pyplot as plt
 
 ### Load in Data ###
 data = pd.read_csv("final_data.csv")
 
-to_drop = ["Unnamed: 0","Unnamed: 0_y","Unnamed: 0_x","Unnamed: 0.1","ID","YEAR_x","DUPERSID_x","DUPERSID",
-            "YEAR", "ADHDAGED","YRSINUS","FOODMN_YEAR","OFREMP","AGE_YEARX","DOBMM","DOBYY", "opioid_prescriptions"]
+to_drop = ["Unnamed: 0","Unnamed: 0_y","Unnamed: 0_x","Unnamed: 0.1","ID","YEAR_x","DUPERSID_x","DUPERSID","DUPERSID_y",
+            "YEAR", "UNEIMP_YEAR", "ADHDAGED","YRSINUS","FOODMN_YEAR","OFREMP","AGE_YEARX","DOBMM","DOBYY", "opioid_prescriptions"]
 
 vars = ["REGION_YEAR","AGELAST","SEX","RACETHX","MARRY_YEARX","EDUCYR",
-"BORNUSA","FOODST_YEAR","TTLP_YEARX","FAMINC_YEAR","POVCAT_YEAR","POVLEV_YEAR","WAGEP_YEARX","UNEIMP_YEAR",
+"BORNUSA","FOODST_YEAR","TTLP_YEARX","FAMINC_YEAR","POVCAT_YEAR","POVLEV_YEAR","WAGEP_YEARX",
 "DIVDP_YEARX","SALEP_YEARX","PENSP_YEARX","PUBP_YEARX","ADHDADDX","TRIMA_YEARX","MCRMA_YEAR","MCDMA_YEAR","ACTDTY",
 "RTHLTH","MNHLTH","EMPST","non_opioid_prescriptions","NUM_CONDITIONS","INJURY"]
 
@@ -41,7 +40,7 @@ data = data.drop(to_drop, axis = 1)
 data["ADHDADDX"].apply(lambda x: x if x == 1 else 0)
 data['ADHDADDX'] = data['ADHDADDX'].fillna(0)
 data["EMPST"].apply(lambda x: 0 if x == 34 else 1)
-data = data.rename({"YEAR_y": "YEAR", "DUPERSID_y": "DUPERSID"}, axis=1)
+data = data.rename({"YEAR_y": "YEAR"}, axis=1)
 #DROPPED to_drop list, recoded ADHDADDX and EMPST
 
 print(data.isna().sum())
@@ -87,9 +86,5 @@ print("model score on testing: %.3f" % log_reg.score(X_test, y_test))
 decision_tree = tree.DecisionTreeClassifier()
 decision_tree = decision_tree.fit(X_train, y_train)
 score = decision_tree.score(X_test, y_test)
-fig = plt.figure(figsize=(25,20))
-_ = tree.plot_tree(decision_tree, 
-                   filled=True)
-fig.savefig("decision_tree.png")                
 print("tree accuracy on testing: %.3f" % score)
 
