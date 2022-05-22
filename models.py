@@ -21,8 +21,8 @@ from identification import vif_detection, corr_matrix_map
 ### Load in Data ###
 data = pd.read_csv("final_data.csv")
 
-to_drop = ["Unnamed: 0","Unnamed: 0_y","Unnamed: 0_x","Unnamed: 0.1","ID","YEAR_x","DUPERSID_x","DUPERSID","DUPERSID_y",
-            "YEAR", "UNEIMP_YEAR", "ADHDAGED","YRSINUS","FOODMN_YEAR","OFREMP","AGE_YEARX","DOBMM","DOBYY", "opioid_prescriptions"]
+# to_drop = ["Unnamed: 0","Unnamed: 0_y","Unnamed: 0_x","Unnamed: 0.1","ID","YEAR_x","DUPERSID_x","DUPERSID","DUPERSID_y",
+#             "YEAR", "UNEIMP_YEAR", "ADHDAGED","YRSINUS","FOODMN_YEAR","OFREMP","AGE_YEARX","DOBMM","DOBYY", "opioid_prescriptions"]
 
 vars = ["REGION_YEAR","AGELAST","SEX","RACETHX","MARRY_YEARX","EDUCYR",
 "BORNUSA","FOODST_YEAR","TTLP_YEARX","FAMINC_YEAR","POVCAT_YEAR","POVLEV_YEAR","WAGEP_YEARX",
@@ -32,15 +32,15 @@ vars = ["REGION_YEAR","AGELAST","SEX","RACETHX","MARRY_YEARX","EDUCYR",
 ### Correlation Matrix (it looks like shit) ###
 #corr_matrix_map(data,vars)
 
-for col in data.columns:
-    print(col,data[col].isnull().values.any())
+# for col in data.columns:
+#     print(col,data[col].isnull().values.any())
 
 #ADHD convert 2 to 0
-data = data.drop(to_drop, axis = 1)
-data["ADHDADDX"].apply(lambda x: x if x == 1 else 0)
-data['ADHDADDX'] = data['ADHDADDX'].fillna(0)
-data["EMPST"].apply(lambda x: 0 if x == 34 else 1)
-data = data.rename({"YEAR_y": "YEAR"}, axis=1)
+# data = data.drop(to_drop, axis = 1)
+# data["ADHDADDX"].apply(lambda x: x if x == 1 else 0)
+# data['ADHDADDX'] = data['ADHDADDX'].fillna(0)
+# data["EMPST"].apply(lambda x: 0 if x == 34 else 1)
+# data = data.rename({"YEAR_y": "YEAR"}, axis=1)
 #DROPPED to_drop list, recoded ADHDADDX and EMPST
 
 print(data.isna().sum())
