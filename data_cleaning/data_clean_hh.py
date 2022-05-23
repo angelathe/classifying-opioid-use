@@ -15,7 +15,7 @@ def read_and_combine(data_to_read, years_to_read):
 
     # create dict for column names and description (both original and clean)
     col_dict = {}
-    for index, row in household_cols.iterrows():
+    for _, row in household_cols.iterrows():
         col_dict[row[0]] = row[1]
 
     # loop through files 
@@ -52,32 +52,32 @@ def read_and_combine(data_to_read, years_to_read):
         # create new insurance columns
         # df_new["UNINSURED_ONLY"] = df_new.loc[:, ("INSCOV_YEAR")].apply(lambda x: 1 if x == 3 else 0)
         df_new["UNINSURED_ONLY"] = np.where(df_new['INSCOV_YEAR'] == 3, 1, 0) 
-        df_new["PRIVATE_ONLY"] = np.where(df_new['PRVEV_YEAR'] == 1 & df_new['PUBAT_YEARX'] == 2 , 1, 0) 
-        df_new["MEDICAID_ONLY"] = np.where(df_new['MCDEV'] == 1 & df_new['MCREV'] == 2 & 
-                                  df_new['PRVEV_YEAR'] == 2 &  df_new['TRIEV_YEAR'] == 2, 1, 0) 
+        df_new["PRIVATE_ONLY"] = np.where( (df_new['PRVEV_YEAR'] == 1) & (df_new['PUBAT_YEARX'] == 2), 1, 0) 
+        df_new["MEDICAID_ONLY"] = np.where( (df_new['MCDEV_YEAR'] == 1) & (df_new['MCREV_YEAR'] == 2) & 
+                                  (df_new['PRVEV_YEAR'] == 2) &  (df_new['TRIEV_YEAR'] == 2), 1, 0) 
         df_new["MEDICARE_ANY"] = np.where(
-                                    (df_new['MCREV'] == 1 | df_new['MCARE_YEAR'] == 1 | 
-                                    df_new['MCARE31'] == 1 |  df_new['MCARE42'] == 1 |
-                                    df_new['MCARE53'] == 1 |  df_new['MCARE_YEARX'] == 1 |
-                                    df_new['MCARE31X'] == 1 |  df_new['MCARE42X'] == 1 |
-                                    df_new['MCARE53X'] == 1) &
-                                    df_new['MCDEV_YEAR'] == 2 & df_new['PRVEV_YEAR'] == 2 &  df_new['TRIEV_YEAR'] == 2, 1, 0) 
-        df_new["MEDICARE_ADV"] = np.where(df_new['MCRPHO_YEAR'] == 1 & df_new['MCRPHO31'] == 1 & 
-                                  df_new['MCRPHO42'] == 1, 1, 0)
+                                    ( (df_new['MCREV_YEAR'] == 1) | (df_new['MCARE_YEAR'] == 1) | 
+                                    (df_new['MCARE31'] == 1) |  (df_new['MCARE42'] == 1) |
+                                    (df_new['MCARE53'] == 1) |  (df_new['MCARE_YEARX'] == 1) |
+                                    (df_new['MCARE31X'] == 1) |  (df_new['MCARE42X'] == 1) |
+                                    (df_new['MCARE53X'] == 1) ) &
+                                    (df_new['MCDEV_YEAR'] == 2) & (df_new['PRVEV_YEAR'] == 2) & (df_new['TRIEV_YEAR'] == 2), 1, 0) 
+        df_new["MEDICARE_ADV"] = np.where( (df_new['MCRPHO_YEAR'] == 1) & (df_new['MCRPHO31'] == 1) & 
+                                  (df_new['MCRPHO42'] == 1), 1, 0)
         df_new["MEDICARE_MEDICAID"] = np.where(
-                                    df_new['MCREV'] == 1 & df_new['MCARE_YEAR'] == 1 & 
-                                    df_new['MCARE31'] == 1 &  df_new['MCARE42'] == 1 &
-                                    df_new['MCARE53'] == 1 &  df_new['MCARE_YEARX'] == 1 &
-                                    df_new['MCARE31X'] == 1 &  df_new['MCARE42X'] == 1 &
-                                    df_new['MCARE53X'] == 1 &
-                                    df_new['MCDEV_YEAR'] == 1 & df_new['PRVEV_YEAR'] == 2 &  df_new['TRIEV_YEAR'] == 2, 1, 0) 
+                                    (df_new['MCREV_YEAR'] == 1) & (df_new['MCARE_YEAR'] == 1) & 
+                                    (df_new['MCARE31'] == 1) & (df_new['MCARE42'] == 1) &
+                                    (df_new['MCARE53'] == 1) & (df_new['MCARE_YEARX'] == 1) &
+                                    (df_new['MCARE31X'] == 1) & (df_new['MCARE42X'] == 1) &
+                                    (df_new['MCARE53X'] == 1) &
+                                    (df_new['MCDEV_YEAR'] == 1) & (df_new['PRVEV_YEAR'] == 2) & (df_new['TRIEV_YEAR'] == 2), 1, 0) 
         df_new["MEDICARE_PRIVATE"] = np.where(
-                                    df_new['MCREV'] == 1 & df_new['MCARE_YEAR'] == 1 & 
-                                    df_new['MCARE31'] == 1 &  df_new['MCARE42'] == 1 &
-                                    df_new['MCARE53'] == 1 &  df_new['MCARE_YEARX'] == 1 &
-                                    df_new['MCARE31X'] == 1 &  df_new['MCARE42X'] == 1 &
-                                    df_new['MCARE53X'] == 1 &
-                                    df_new['MCDEV_YEAR'] == 2 & df_new['PRVEV_YEAR'] == 1 &  df_new['TRIEV_YEAR'] == 2, 1, 0) 
+                                    (df_new['MCREV_YEAR'] == 1) & (df_new['MCARE_YEAR'] == 1) & 
+                                    (df_new['MCARE31'] == 1) & (df_new['MCARE42'] == 1) &
+                                    (df_new['MCARE53'] == 1) & (df_new['MCARE_YEARX'] == 1) &
+                                    (df_new['MCARE31X'] == 1) & (df_new['MCARE42X'] == 1) &
+                                    (df_new['MCARE53X'] == 1) &
+                                    (df_new['MCDEV_YEAR'] == 2) & (df_new['PRVEV_YEAR'] == 1) & (df_new['TRIEV_YEAR'] == 2), 1, 0) 
 
         # drop columns
         cols_to_drop = ['INSCOV_YEAR','PRVEV_YEAR','PUBAT_YEARX','MCDEV_YEAR','MCREV_YEAR','TRIEV_YEAR',
