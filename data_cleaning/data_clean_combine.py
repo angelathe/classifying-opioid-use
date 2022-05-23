@@ -20,7 +20,9 @@ assert len(final) == len(pmf), "Added or removed rows in merge"
 
 
 # 4. Final data cleaning
-to_drop = ["Unnamed: 0","Unnamed: 0_y","Unnamed: 0_x","Unnamed: 0.1","ID","YEAR_x","DUPERSID_x","DUPERSID","DUPERSID_y",
+to_drop = ["Unnamed: 0","Unnamed: 0_y","Unnamed: 0_x",
+           #"Unnamed: 0.1",
+           "ID","YEAR_x","DUPERSID_x","DUPERSID","DUPERSID_y",
             "YEAR", "UNEIMP_YEAR", "ADHDAGED","YRSINUS","FOODMN_YEAR","OFREMP","AGE_YEARX","DOBMM","DOBYY", "opioid_prescriptions"]
 
 # for col in data.columns:
