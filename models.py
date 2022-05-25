@@ -16,6 +16,10 @@ from sklearn import preprocessing
 from patsy import dmatrices
 from sklearn.linear_model import LogisticRegression
 from sklearn import tree
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.neural_network import MLPClassifier
+from sklearn.datasets import make_classification
 from identification import vif_detection
 
 ### Load in Data ###
@@ -36,18 +40,37 @@ exog = pd.DataFrame(data, columns=vars)
 exog_vars = vif_detection(data,exog, y)
 
 ### Model 1-Logistic Regression
-X=pd.DataFrame(exog).to_numpy()
+X=pd.DataFrame(exog_vars).to_numpy()
 y=pd.DataFrame(y).to_numpy().reshape(len(y),)
 scaler = StandardScaler()
 X = scaler.fit_transform(X)
 X_scaled = scaler.transform(X)
-X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
+X_train, X_test_valid, y_train, y_test_valid = train_test_split(X_scaled, y, random_state=42, test_size = 0.2)
+X_valid, X_test, y_valid, y_test = train_test_split(X_test_valid, y_test_valid, random_state=42, test_size = 0.5)
 log_reg= LogisticRegression(max_iter = 1000).fit(X_train, y_train)  # apply scaling on training data
 print("model score on training: %.3f" % log_reg.score(X_train, y_train))
 print("model score on testing: %.3f" % log_reg.score(X_test, y_test))
 
+### Model 2-Decision Tree
 decision_tree = tree.DecisionTreeClassifier()
 decision_tree = decision_tree.fit(X_train, y_train)
 score = decision_tree.score(X_test, y_test)
 print("tree accuracy on testing: %.3f" % score)
 
+### Model 3-Random Forest
+forest_model = RandomForestClassifier(random_state = 0, n_jobs = 1, n_estimators = 100, class_weight = 'balanced')
+forest_model = forest_model.fit(X_train, y_train)
+score = forest_model.score(X_test, y_test)
+print("random forest accuracy on testing: %.3f" % score)
+
+### Model 4-Neural Net
+clf = MLPClassifier(hidden_layer_sizes = (100,50, 25), activation = 'logistic', alpha = 0.0001, solver = 'sgd', max_iter = 200, shuffle = True, random_state=1).fit(X_train, y_train)
+#clf = MLPClassifier(hidden_layer_sizes = (100,50, 25), random_state=1, max_iter=300).fit(X_train, y_train)
+score = clf.score(X_test, y_test)
+print("neural net accuracy on testing: %.3f" % score)
+
+### Model 5-Ada Boost? 
+# adjust number of estimators
+ada_boost = AdaBoostClassifier(n_estimators=1000, learning_rate=0.2, algorithm='SAMME.R', random_state=1).fit(X_train, y_train)
+score = ada_boost.score(X_test, y_test)
+print("Ada  accuracy on testing: %.3f" % score)
